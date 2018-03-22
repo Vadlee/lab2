@@ -19,8 +19,12 @@ increase(int thread, int iterations, volatile int *data)
         /* TASK: Implement a loop that increments *data by 1 using
          * non-atomic compare and exchange instructions. See lab2_asm.h.
          */
+        int a; 
         for (int i = 0; i < iterations; i++){
-                asm_cmpxchg_int32(data, *data, *data+1);
+            a = *data;
+                while (a != asm_cmpxchg_int32(data, a, a+1)){
+                                a = *data;
+                };
         }
 }
 
@@ -31,8 +35,12 @@ decrease(int thread, int iterations, volatile int *data)
          * non-atomic compare and exchange instructions. See lab2_asm.h.
          */
 
-              for (int i = 0; i < iterations; i++){
-                asm_cmpxchg_int32(data, *data, *data-1);
+        int a; 
+        for (int i = 0; i < iterations; i++){
+            a = *data;
+                while (a != asm_cmpxchg_int32(data, a, a-1)){
+                                a = *data;
+                };
         }
 }
 
@@ -43,8 +51,12 @@ increase_atomic(int thread, int iterations, volatile int *data)
         /* TASK: Implement a loop that increments *data by 1 using
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
-              for (int i = 0; i < iterations; i++){
-                asm_atomic_cmpxchg_int32(data, *data, *data+1);
+        int a; 
+        for (int i = 0; i < iterations; i++){
+            a = *data;
+                while (a != asm_atomic_cmpxchg_int32(data, a, a+1)){
+                                a = *data;
+                };
         }
 
 }
@@ -55,8 +67,12 @@ decrease_atomic(int thread, int iterations, volatile int *data)
         /* TASK: Implement a loop that decrements *data by 1 using
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
+         int a; 
         for (int i = 0; i < iterations; i++){
-                asm_atomic_cmpxchg_int32(data, *data, *data+1);
+            a = *data;
+                while (a != asm_atomic_cmpxchg_int32(data, a, a-1)){
+                                a = *data;
+                };
         }
 
 }
